@@ -94,17 +94,20 @@ public class ExergameBackgroundService extends Service implements GoogleApiClien
                     }
 
                     if(getForegroundApp() == "ExergameMonitor"){
-                        appFlagged = true;
-                        sessionStartSteps = getDailyStepCount();
-                    }
-
-                    while(appFlagged){
-                        if(getForegroundApp()!="ExergameMonitor") {
-                            appFlagged = false;
-                            sessionEndSteps= getDailyStepCount();
-                            sessionTotalSteps = sessionEndSteps - sessionStartSteps;
-                            Log.e(TAG, "Steps:" + Integer.toString(sessionTotalSteps));
+                        if(!appFlagged){
+                            sessionStartSteps = getDailyStepCount();
+                            Log.e(TAG, "Exergame Just Started");
                         }
+                        appFlagged = true;
+                        Log.e(TAG, "Exergame in Foreground");
+                    }
+                    else{
+                        appFlagged = false;
+                        Log.e(TAG, "Exergame not in Foreground");
+                    /*//After Exit the App Report Step Count
+                    sessionEndSteps= getDailyStepCount();
+                    sessionTotalSteps = sessionEndSteps - sessionStartSteps;
+                    Log.e(TAG, "Steps:" + Integer.toString(sessionTotalSteps));*/
                     }
                 }
 
