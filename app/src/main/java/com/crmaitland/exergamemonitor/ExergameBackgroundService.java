@@ -166,6 +166,7 @@ public class ExergameBackgroundService extends Service{
                             }
                         }
                 ).build();
+        mClient.connect();
     }
 
 
@@ -200,11 +201,10 @@ public class ExergameBackgroundService extends Service{
      */
     private class VerifyDataTask extends AsyncTask<Void, Void, Void> {
         protected Void doInBackground(Void... params) {
-
             long total = 0;
 
             PendingResult<DailyTotalResult> result = Fitness.HistoryApi.readDailyTotal(mClient, DataType.TYPE_STEP_COUNT_DELTA);
-            DailyTotalResult totalResult = result.await(30, TimeUnit.SECONDS);
+            DailyTotalResult totalResult = result.await(20, TimeUnit.SECONDS);
             if (totalResult.getStatus().isSuccess()) {
                 DataSet totalSet = totalResult.getTotal();
                 total = totalSet.isEmpty()
