@@ -2,12 +2,18 @@ package com.crmaitland.exergamemonitor;
 
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.TabHost;
 import android.widget.Toast;
+
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
@@ -35,8 +41,8 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     private boolean authInProgress = false;
     private GoogleApiClient mApiClient;
 
-
-
+    WebView wv;
+    WebView wv2;
 
 
 
@@ -61,14 +67,27 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
         Intent intent = new Intent(this, ExergameBackgroundService.class);
         startService(intent);
-        Log.e("Main", "Created Activity");
+
+
+        initTabs();
+        wv = (WebView) findViewById(R.id.wv);
+        wv.getSettings().setJavaScriptEnabled(true);
+        wv.loadUrl("https://goo.gl/forms/99ZuY2vNZNeIGZwH3");
+        wv.setWebViewClient(new WebViewClient());
+
+        https://goo.gl/forms/Yb3lGwx0426eQbc72
+
+        wv2 = (WebView) findViewById(R.id.wv2);
+        wv2.getSettings().setJavaScriptEnabled(true);
+        wv2.loadUrl("https://goo.gl/forms/bjGcNSoyPcjQIKvG2");
+        wv2.setWebViewClient(new WebViewClient());
+
     }
 
 
     protected void onStart(){
         super.onStart();
         mApiClient.connect();
-        Log.e("Main", "StartedActivity");
 
     }
 
@@ -166,4 +185,34 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             });
         }
     }
+
+    private void initTabs(){
+        TabHost host = (TabHost)findViewById(R.id.tabHost);
+        host.setup();
+
+        //Tab 1
+        TabHost.TabSpec spec = host.newTabSpec("Tab One");
+        spec.setContent(R.id.tab1);
+        spec.setIndicator("Survey");
+        host.addTab(spec);
+
+        //Tab 2
+        spec = host.newTabSpec("Tab Two");
+        spec.setContent(R.id.tab2);
+        spec.setIndicator("Help");
+        host.addTab(spec);
+
+        //Tab 3
+        spec = host.newTabSpec("Tab Three");
+        spec.setContent(R.id.tab3);
+        spec.setIndicator("About");
+        host.addTab(spec);
+
+    }
+
+    private void initSurveyViews(){
+
+    }
+
+
 }
